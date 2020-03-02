@@ -1,18 +1,19 @@
 package main
 
 import (
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/raspb"
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/util"
 	"fmt"
+	"github.com/oloose/mqtt"
+	"github.com/oloose/raspb"
+	"github.com/oloose/util"
 	"github.com/urfave/cli"
 	"log"
 	"math/rand"
 	"os"
 	"time"
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/mqtt"
 )
 
 var AppSetup *appSetup
+
 const ArduinoDefaultCount = 1
 
 type appSetup struct {
@@ -119,7 +120,7 @@ func Start(c *cli.Context) error {
 		clients = append(clients, nClient)
 
 		//connect client to mqtt broker
-		if err := nClient.Connect(); err != nil{
+		if err := nClient.Connect(); err != nil {
 			log.Printf(err.Error())
 			panic(err)
 		}

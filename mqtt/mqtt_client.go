@@ -1,12 +1,12 @@
 package mqtt
 
 import (
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/raspb"
 	"fmt"
 	MQTT "github.com/eclipse/paho.mqtt.golang"
+	"github.com/oloose/raspb"
+	"github.com/oloose/util"
 	"log"
 	"time"
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/util"
 )
 
 type Client struct {
@@ -71,14 +71,14 @@ func NewClient(mRasp *raspb.Raspberry, mClientId string, mBroker string) *Client
 }
 
 // Publish sensor data from all Arduinos that this client has to the MQTT-Broker
-func (rClient *Client) PublishSensorData(){
+func (rClient *Client) PublishSensorData() {
 	ards := rClient.raspb.Ards()
 
 	for i := 0; i < int(rClient.raspb.UsedArdIds()); i++ {
 		ard := ards[uint8(i)]
 
 		// create publish topic
-		topic :=  fmt.Sprintf("/R%d/Rig%d", rClient.raspb.Id(), ard.Id())
+		topic := fmt.Sprintf("/R%d/Rig%d", rClient.raspb.Id(), ard.Id())
 
 		// use sensor data (converted from struct/string-respresentation to byte[])
 		// as payload for publish
@@ -92,10 +92,10 @@ func (rClient *Client) PublishSensorData(){
 }
 
 // Establish client connection to MQTT-Broker
-func (rClient *Client) Connect() error{
+func (rClient *Client) Connect() error {
 	if rClient.mqttClient.IsConnected() == false {
 		if token := rClient.mqttClient.Connect(); token.Wait() && token.Error() != nil {
-			return  token.Error()
+			return token.Error()
 		}
 	}
 	return nil
@@ -111,13 +111,12 @@ func (rClient *Client) Disconnect() {
 	}
 }
 
-
-func (rClient *Client) Raspb() *raspb.Raspberry{
+func (rClient *Client) Raspb() *raspb.Raspberry {
 	rasp := *rClient.raspb
 	return &rasp
 }
 
-func (rClient *Client) BrokerAddress() string{
+func (rClient *Client) BrokerAddress() string {
 	return rClient.broker
 }
 
@@ -125,8 +124,6 @@ func (rClient *Client) ClientId() string {
 	return rClient.clientId
 }
 
-func (rClient *Client) MQTTClient() MQTT.Client{
+func (rClient *Client) MQTTClient() MQTT.Client {
 	return rClient.mqttClient
 }
-
-

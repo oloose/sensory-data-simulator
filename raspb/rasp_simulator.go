@@ -1,9 +1,9 @@
 package raspb
 
 import (
-	"bitbucket.org/verticalgreen/semiramis-mqtt-ardraspb-client-test/ard"
 	"errors"
 	"fmt"
+	"github.com/oloose/ard"
 	"log"
 )
 
@@ -35,8 +35,8 @@ func NewRaspberry(mArds int) *Raspberry {
 func (rRaspb *Raspberry) AddArd() ard.Arduino {
 	nArd := ard.NewArduino(rRaspb.usedArdIds) //create new ard
 	log.Printf("## CREATED ARDUINO: R%d/Rig%d/...\n", rRaspb.id, nArd.Id())
-	rRaspb.ards[rRaspb.usedArdIds] = nArd     // add nArd to map with rRaspb.usedArdIds as key
-	rRaspb.usedArdIds++                       // increase id counter (always to prevent double used ids)
+	rRaspb.ards[rRaspb.usedArdIds] = nArd // add nArd to map with rRaspb.usedArdIds as key
+	rRaspb.usedArdIds++                   // increase id counter (always to prevent double used ids)
 	return *nArd
 }
 
